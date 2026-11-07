@@ -6,7 +6,8 @@ extends EditorPlugin
 ## whatever zoom and pan each was left at; closing a scene and opening it again fits it again.
 ##
 ## Godot gives plugins no call to frame the 2D view, so this presses the View menu's own Frame
-## Selection item, found by its shortcut. A Godot update that changes that menu stops it quietly.
+## Selection item. It's found by its shortcut, the same object the editor settings hold, since its
+## label is translated. A Godot update that changes that menu stops it quietly.
 
 const FRAME_SHORTCUT := "canvas_item_editor/frame_selection"
 
@@ -71,11 +72,13 @@ func _get_canvas_item_editor() -> Control:
 
 
 func _press_frame_selection(editor: Control) -> bool:
+	var frame_shortcut := EditorInterface.get_editor_settings().get_shortcut(FRAME_SHORTCUT)
+	if frame_shortcut == null:
+		return false
 	for button: MenuButton in editor.find_children("*", "MenuButton", true, false):
 		var popup := button.get_popup()
 		for index in popup.item_count:
-			var shortcut := popup.get_item_shortcut(index)
-			if shortcut != null and shortcut.resource_name == FRAME_SHORTCUT:
+			if popup.get_item_shortcut(index) == frame_shortcut:
 				popup.id_pressed.emit(popup.get_item_id(index))
 				return true
 	return false
