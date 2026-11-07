@@ -1,4 +1,4 @@
-# Frame On Open
+# Scene Auto Zoom
 
 A Godot 4 editor plugin that fits a 2D or UI scene into the 2D view when you open it, the same as selecting everything and pressing **Shift+F** (View > Frame Selection).
 
@@ -17,7 +17,7 @@ After fitting, only the scene's root is left selected.
 
 ## Installing
 
-Copy `addons/frame_on_open/` into your project's `addons/` folder, then enable **Frame On Open** under **Project > Project Settings > Plugins**.
+Copy `addons/scene_auto_zoom/` into your project's `addons/` folder, then enable **Scene Auto Zoom** under **Project > Project Settings > Plugins**.
 
 Written for Godot 4 and tested on 4.7.2.
 
