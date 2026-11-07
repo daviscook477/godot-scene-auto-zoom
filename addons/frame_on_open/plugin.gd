@@ -5,9 +5,11 @@ extends EditorPlugin
 ## pressing Shift+F (View > Frame Selection) does. Switching between open scenes' tabs keeps
 ## whatever zoom and pan each was left at; closing a scene and opening it again fits it again.
 ##
-## Godot gives plugins no call to frame the 2D view, so this presses the View menu's own Frame
-## Selection item. It's found by its shortcut, the same object the editor settings hold, since its
-## label is translated. A Godot update that changes that menu stops it quietly.
+## Godot gives plugins no call to frame the 2D view, so this selects every visible node, presses
+## the View menu's own Frame Selection item, then leaves just the root selected. Framing the root
+## alone would cut off children that reach outside it. The menu item is found by its shortcut,
+## the same object the editor settings hold, since its label is translated. A Godot update that
+## changes that menu stops it quietly.
 
 const FRAME_SHORTCUT := "canvas_item_editor/frame_selection"
 
@@ -60,7 +62,13 @@ func _on_scene_changed(root: Node) -> void:
 	var selection := EditorInterface.get_selection()
 	selection.clear()
 	selection.add_node(root)
-	if _press_frame_selection(editor):
+	for node: CanvasItem in root.find_children("*", "CanvasItem", true, false):
+		if node.is_visible_in_tree():
+			selection.add_node(node)
+	var pressed := _press_frame_selection(editor)
+	selection.clear()
+	selection.add_node(root)
+	if pressed:
 		_framed[root.scene_file_path] = true
 
 
