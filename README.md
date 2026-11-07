@@ -1,5 +1,7 @@
 # Scene Auto Zoom
 
+![Scene Auto Zoom](thumbnail.png)
+
 A Godot 4 editor plugin that fits a 2D or UI scene into the 2D view when you open it, the same as selecting everything and pressing **Shift+F** (View > Frame Selection).
 
 Godot normally reopens a scene at whatever zoom and pan it last had, or at 100% for a scene it hasn't seen, which for large UI layouts often shows only a corner.
